@@ -16,8 +16,12 @@
         <int:method name="send" request-channel="metrics.in"/>
     </int:gateway>
 
-    <int:service-activator input-channel="metrics.filtered" method="receive">
-        <bean class="org.boudet.spring.integration.sample.service.SimpleMetricReceiverService"/>
+    <int:service-activator input-channel="metrics.temperature" method="receive">
+        <bean class="org.boudet.spring.integration.sample.service.TemperatureMetricReceiverService"/>
+    </int:service-activator>
+
+    <int:service-activator input-channel="metrics.humidity" method="receive">
+        <bean class="org.boudet.spring.integration.sample.service.HumidityMetricReceiverService"/>
     </int:service-activator>
 
     <int:channel id="metrics.in">
@@ -34,5 +38,8 @@
 
     <int:logging-channel-adapter id="logger" level="DEBUG" />
 
-
+    <int:router input-channel="metrics.filtered" expression="payload.type">
+        <int:mapping value="temperature" channel="metrics.temperature"/>
+        <int:mapping value="humidity" channel="metrics.humidity"/>
+    </int:router>
 </beans>

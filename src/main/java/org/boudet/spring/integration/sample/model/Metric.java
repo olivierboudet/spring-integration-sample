@@ -5,6 +5,7 @@ import java.util.Date;
 public class Metric {
     public Date datetime;
     public int value;
+    public String type;
 
     public Date getDatetime() {
         return datetime;
@@ -22,11 +23,20 @@ public class Metric {
         this.value = value;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "Metric{" +
                 "datetime=" + datetime +
                 ", value=" + value +
+                ", type='" + type + '\'' +
                 '}';
     }
 }
