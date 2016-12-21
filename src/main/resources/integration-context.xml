@@ -7,11 +7,15 @@
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
             http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
 
+    <int:filter input-channel="metrics.in" ref="messageFilter" output-channel="metrics.filtered"/>
+
+    <bean id="messageFilter" class="org.boudet.spring.integration.sample.filter.MessageFilterImpl"/>
+
     <int:gateway service-interface="org.boudet.spring.integration.sample.service.MetricSenderService">
         <int:method name="send" request-channel="metrics.in"/>
     </int:gateway>
 
-    <int:service-activator input-channel="metrics.in" method="receive">
+    <int:service-activator input-channel="metrics.filtered" method="receive">
         <bean class="org.boudet.spring.integration.sample.service.SimpleMetricReceiverService"/>
     </int:service-activator>
 
@@ -21,5 +25,13 @@
         </int:interceptors>
     </int:channel>
 
+    <int:channel id="metrics.filtered">
+        <int:interceptors>
+            <int:wire-tap channel="logger"/>
+        </int:interceptors>
+    </int:channel>
+
     <int:logging-channel-adapter id="logger" level="DEBUG" />
+
+
 </beans>
