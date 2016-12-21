@@ -2,4 +2,5 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <logger name="org.boudet" level="DEBUG"/>
+    <logger name="org.springframework.integration.handler.LoggingHandler" level="DEBUG"/>
 </configuration>
