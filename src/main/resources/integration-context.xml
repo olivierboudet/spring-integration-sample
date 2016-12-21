@@ -7,9 +7,10 @@
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
             http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
 
-    <int:filter input-channel="metrics.in" ref="messageFilter" output-channel="metrics.filtered"/>
-
-    <bean id="messageFilter" class="org.boudet.spring.integration.sample.filter.MessageFilterImpl"/>
+    <int:filter input-channel="metrics.in" expression="payload.datetime.before(new java.util.Date())"
+                output-channel="metrics.filtered"
+                throw-exception-on-rejection="true"
+    />
 
     <int:gateway service-interface="org.boudet.spring.integration.sample.service.MetricSenderService">
         <int:method name="send" request-channel="metrics.in"/>
