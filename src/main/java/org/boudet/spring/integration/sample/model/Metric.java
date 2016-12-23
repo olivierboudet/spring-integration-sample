@@ -1,8 +1,9 @@
 package org.boudet.spring.integration.sample.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Metric {
+public class Metric implements Serializable {
     public Date datetime;
     public int value;
     public String type;
